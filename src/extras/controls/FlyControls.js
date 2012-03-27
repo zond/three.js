@@ -13,6 +13,23 @@ THREE.FlyControls = function ( object, domElement ) {
 
 	this.movementSpeed = 1.0;
 	this.rollSpeed = 0.005;
+    this.mouseEnabled = true;
+
+    this.controls = {
+	"movementSpeedMultiplier": 16, /* shift */
+	"forward": 87, /*W*/
+	"back": 83, /*S*/
+	"left": 65, /*A*/
+	"right": 68, /*D*/
+	"up": 82, /*R*/
+	"down": 70, /*F*/
+	"pitchUp": 38, /*up*/
+	"pitchDown": 40, /*down*/
+	"yawLeft": 37, /*left*/
+	"yawRight": 39, /*right*/
+	"rollLeft": 81, /*Q*/
+	"rollRight": 69 /*E*/
+    };
 
 	this.dragToLook = false;
 	this.autoForward = false;
@@ -51,25 +68,25 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		switch( event.keyCode ) {
 
-			case 16: /* shift */ this.movementSpeedMultiplier = .1; break;
+			case this.controls["movementSpeedMultipler"]: /* shift */ this.movementSpeedMultiplier = .1; break;
 
-			case 87: /*W*/ this.moveState.forward = 1; break;
-			case 83: /*S*/ this.moveState.back = 1; break;
+			case this.controls["forward"]: /*W*/ this.moveState.forward = 1; break;
+			case this.controls["back"]: /*S*/ this.moveState.back = 1; break;
 
-			case 65: /*A*/ this.moveState.left = 1; break;
-			case 68: /*D*/ this.moveState.right = 1; break;
+			case this.controls["left"]: /*A*/ this.moveState.left = 1; break;
+			case this.controls["right"]: /*D*/ this.moveState.right = 1; break;
 
-			case 82: /*R*/ this.moveState.up = 1; break;
-			case 70: /*F*/ this.moveState.down = 1; break;
+			case this.controls["up"]: /*R*/ this.moveState.up = 1; break;
+			case this.controls["down"]: /*F*/ this.moveState.down = 1; break;
 
-			case 38: /*up*/ this.moveState.pitchUp = 1; break;
-			case 40: /*down*/ this.moveState.pitchDown = 1; break;
+			case this.controls["pitchUp"]: /*up*/ this.moveState.pitchUp = 1; break;
+			case this.controls["pitchDown"]: /*down*/ this.moveState.pitchDown = 1; break;
 
-			case 37: /*left*/ this.moveState.yawLeft = 1; break;
-			case 39: /*right*/ this.moveState.yawRight = 1; break;
+			case this.controls["yawLeft"]: /*left*/ this.moveState.yawLeft = 1; break;
+			case this.controls["yawRight"]: /*right*/ this.moveState.yawRight = 1; break;
 
-			case 81: /*Q*/ this.moveState.rollLeft = 1; break;
-			case 69: /*E*/ this.moveState.rollRight = 1; break;
+			case this.controls["rollLeft"]: /*Q*/ this.moveState.rollLeft = 1; break;
+			case this.controls["rollRight"]: /*E*/ this.moveState.rollRight = 1; break;
 
 		}
 
@@ -82,25 +99,25 @@ THREE.FlyControls = function ( object, domElement ) {
 
 		switch( event.keyCode ) {
 
-			case 16: /* shift */ this.movementSpeedMultiplier = 1; break;
+			case this.controls["movementSpeedMultipler"]: /* shift */ this.movementSpeedMultiplier = 1; break;
 
-			case 87: /*W*/ this.moveState.forward = 0; break;
-			case 83: /*S*/ this.moveState.back = 0; break;
+			case this.controls["forward"]: /*W*/ this.moveState.forward = 0; break;
+			case this.controls["back"]: /*S*/ this.moveState.back = 0; break;
 
-			case 65: /*A*/ this.moveState.left = 0; break;
-			case 68: /*D*/ this.moveState.right = 0; break;
+			case this.controls["left"]: /*A*/ this.moveState.left = 0; break;
+			case this.controls["right"]: /*D*/ this.moveState.right = 0; break;
 
-			case 82: /*R*/ this.moveState.up = 0; break;
-			case 70: /*F*/ this.moveState.down = 0; break;
+			case this.controls["up"]: /*R*/ this.moveState.up = 0; break;
+			case this.controls["down"]: /*F*/ this.moveState.down = 0; break;
 
-			case 38: /*up*/ this.moveState.pitchUp = 0; break;
-			case 40: /*down*/ this.moveState.pitchDown = 0; break;
+			case this.controls["pitchUp"]: /*up*/ this.moveState.pitchUp = 0; break;
+			case this.controls["pitchDown"]: /*down*/ this.moveState.pitchDown = 0; break;
 
-			case 37: /*left*/ this.moveState.yawLeft = 0; break;
-			case 39: /*right*/ this.moveState.yawRight = 0; break;
+			case this.controls["yawLeft"]: /*left*/ this.moveState.yawLeft = 0; break;
+			case this.controls["yawRight"]: /*right*/ this.moveState.yawRight = 0; break;
 
-			case 81: /*Q*/ this.moveState.rollLeft = 0; break;
-			case 69: /*E*/ this.moveState.rollRight = 0; break;
+			case this.controls["rollLeft"]: /*Q*/ this.moveState.rollLeft = 0; break;
+			case this.controls["rollRight"]: /*E*/ this.moveState.rollRight = 0; break;
 
 		}
 
@@ -110,7 +127,7 @@ THREE.FlyControls = function ( object, domElement ) {
 	};
 
 	this.mousedown = function( event ) {
-
+	    if (this.mouseEnabled) {
 		if ( this.domElement !== document ) {
 
 			this.domElement.focus();
@@ -134,11 +151,11 @@ THREE.FlyControls = function ( object, domElement ) {
 			}
 
 		}
-
+	    }
 	};
 
 	this.mousemove = function( event ) {
-
+	    if (this.mouseEnabled) {
 		if ( !this.dragToLook || this.mouseStatus > 0 ) {
 
 			var container = this.getContainerDimensions();
@@ -151,11 +168,11 @@ THREE.FlyControls = function ( object, domElement ) {
 			this.updateRotationVector();
 
 		}
-
+	    }
 	};
 
 	this.mouseup = function( event ) {
-
+	    if (this.mouseEnabled) {
 		event.preventDefault();
 		event.stopPropagation();
 
@@ -177,7 +194,7 @@ THREE.FlyControls = function ( object, domElement ) {
 		}
 
 		this.updateRotationVector();
-
+	    }
 	};
 
 	this.update = function( delta ) {
