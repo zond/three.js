@@ -15,6 +15,8 @@ THREE.FlyControls = function ( object, domElement ) {
 	this.rollSpeed = 0.005;
     this.mouseEnabled = true;
 
+    this.customControls = {};
+
     this.controls = {
 	"movementSpeedMultiplier": 16, /* shift */
 	"forward": 87, /*W*/
@@ -87,7 +89,11 @@ THREE.FlyControls = function ( object, domElement ) {
 
 			case this.controls["rollLeft"]: /*Q*/ this.moveState.rollLeft = 1; break;
 			case this.controls["rollRight"]: /*E*/ this.moveState.rollRight = 1; break;
-
+		default:
+		    var cust = this.customControls[event.keyCode];
+		    if (cust != null) {
+			cust["down"]();
+		    }
 		}
 
 		this.updateMovementVector();
@@ -118,7 +124,11 @@ THREE.FlyControls = function ( object, domElement ) {
 
 			case this.controls["rollLeft"]: /*Q*/ this.moveState.rollLeft = 0; break;
 			case this.controls["rollRight"]: /*E*/ this.moveState.rollRight = 0; break;
-
+		default:
+		    var cust = this.customControls[event.keyCode];
+		    if (cust != null) {
+			cust["up"]();
+		    }
 		}
 
 		this.updateMovementVector();
